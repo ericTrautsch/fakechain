@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fakechain"
-version = "0.1.0"
+version = "0.2.0"
 description = "Spiritual Sucessor to LangChain, limited scope"
 authors = ["Eric Trautsch <eric-trautsch@uiowa.edu>"]
 readme = "README.md"
