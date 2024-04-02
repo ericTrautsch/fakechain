@@ -15,7 +15,7 @@ class Query(ABC):
 
 
 class OpenAIAPIQuery(Query):
-    def __init__(self, api_url='https://api.openai.com/v1/chat/completions', api_key='not_a_key'):
+    def __init__(self, api_url='https://api.openai.com/v1/chat/completions', api_key=os.getenv('OPENAI_API_KEY')):
         self.api_url = api_url
         self.api_key = api_key
 
