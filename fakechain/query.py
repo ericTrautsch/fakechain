@@ -4,36 +4,48 @@ import json
 
 from abc import ABC, abstractmethod
 
+def execute_query(provider, query):
+    return query.postprocess(provider.query_api(query.generate_query()))
+
+def execute_chain(provider, query_one):
+    response_one = execute_query(provider, query_one)
+    return execute_query(provider, BasicQuery(response_one))
+
 class Query(ABC):
     @abstractmethod
-    def __init__(self, api_url='https://api.openai.com/v1/chat/completions',api_key=None):
+    def __init__(self):
         pass
-        
+    
     @abstractmethod
-    def query_api(self, input_context):
+    def generate_query(self):
         pass
 
-
-class OpenAIAPIQuery(Query):
-    def __init__(self, api_url='https://api.openai.com/v1/chat/completions', api_key=os.getenv('OPENAI_API_KEY')):
-        self.api_url = api_url
-        self.api_key = api_key
-
-    def query_api(self, input_context):
-        headers = {
-                    "Content-Type": "application/json",
-                    "Authorization": f"Bearer {self.api_key}"
-                  }
-        data = {
-                "model": "gpt-3.5-turbo",
-                "messages": [{"role": "user", "content": f"{input_context}"}],
-                "temperature": 0.7
-               }
-
-        return requests.post(self.api_url, headers=headers, data=json.dumps(data))
+    def postprocess(self, response):
+        return response
 
 
-if __name__ == '__main__':
-    openai_query = OpenAIAPIQuery(api_url='https://api.openai.com/v1/chat/completions', api_key=os.getenv('OPENAI_API_KEY'))
-    print(openai_query.query_api('Hi, my name is Eric, what is the color of the sky?').text)
+class BasicQuery(Query):
+    def __init__(self, input_text):
+        self.input_text = input_text
+
+    def generate_query(self):
+        return self.input_text[{"role": "user", "content": str(input_text)}]
+        
+class BasicPaL(Query):
+    def __init__(self, input_text)
+        self.input_text = input_text
+
+    def generate_query(self):
+        return [ {'role': 'system', 'content': 'You are a helpful assistant that can write Python code that solves mathematical reasoning questions. Response with ONLY executable code, and ensure the correct answer is returned.'},
+            {'role': 'user', 'content': self.input_text}]
+
+    def postprocess(self, response):
+        try:
+            response.strip().split('\n')
+            for line in lines:
+                exec(line)
+        except:
+            return f"Result failed unsuccessfully. {response}"
+        return f"No result. {response}"
+
 
