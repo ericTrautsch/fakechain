@@ -1,11 +1,14 @@
 from abc import ABC, abstractmethod
+import os
+import requests
+import json
 
-def LLMProvider(ABC):
+class LLMProvider(ABC):
     @abstractmethod
     def query_api(self, input_context):
         pass
 
-def OpenAIProvider(LLMProvider):
+class OpenAIProvider(LLMProvider):
     def __init__(self, api_url='https://api.openai.com/v1/chat/completions', api_key=os.getenv('OPENAI_API_KEY')):
         self.api_url = api_url
         self.api_key = api_key
@@ -21,7 +24,7 @@ def OpenAIProvider(LLMProvider):
                 "temperature": 0.7
                }
 
-        return requests.post(self.api_url, headers=headers, data=json.dumps(data))
+        return json.loads(requests.post(self.api_url, headers=headers, data=json.dumps(data)).content)['choices'][0]['message']['content']
 
 
 class OllamaProvider(LLMProvider):
