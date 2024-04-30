@@ -5,11 +5,13 @@ import json
 from abc import ABC, abstractmethod
 
 def execute_query(provider, query):
+    """Function to execute a query given a provider and a specified query"""
     return query.postprocess(provider.query_api(query.generate_query()))
 
-def execute_chain(provider, query_one):
+def execute_basic_chain(provider, query_one, query_two_type=BasicQuery):
+    """Function to execute a two queries, given a query, and a type of query for the followup"""
     response_one = execute_query(provider, query_one)
-    return execute_query(provider, BasicQuery(response_one))
+    return execute_query(provider, query_two_type(response_one))
 
 class Query(ABC):
     @abstractmethod
@@ -47,5 +49,6 @@ class BasicPaL(Query):
         except:
             return f"Result failed unsuccessfully. {response}"
         return f"No result. {response}"
+
 
 
