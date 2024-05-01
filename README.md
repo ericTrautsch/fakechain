@@ -1,5 +1,5 @@
 # fakechain
-a spiritual successor to langchain. build chains to query small language models
+a side project. build chains to query small language models
 
 ## Getting Started
 
