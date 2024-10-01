@@ -1,5 +1,5 @@
 # fakechain
-a side project. build chains to query small language models
+a class project. build chains to query small language models
 
 ## Getting Started
 
