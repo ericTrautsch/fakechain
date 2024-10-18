@@ -21,5 +21,5 @@ poetry publish --build --no-cache -r test-pypi
 
 ### References/Technologies
 
-1. Python Poetry [https://python-poetry.org/](Python Poetry)
-2. Article on LangChain base functionality [https://towardsdatascience.com/a-gentle-intro-to-chaining-llms-agents-and-utils-via-langchain-16cd385fca81](Article)
+1. [Python Poetry](https://python-poetry.org/)
+2. Article on LangChain base functionality [Article](https://towardsdatascience.com/a-gentle-intro-to-chaining-llms-agents-and-utils-via-langchain-16cd385fca81)
